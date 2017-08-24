@@ -1,0 +1,27 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8767
+spring:
+  application:
+    name: service-zuul
+# 响应页面默认后缀
+  mvc:
+    view:
+      suffix: .html
+
+#单实例路由
+zuul:
+  routes:
+    api-node1:
+      path: /ribbon/** #指定路径
+      serviceId: spring-cloud-ribbon-consumer #指定服务
+#      sensitiveHeaders: Cookie,Set-Cookie,Authorization
+    api-node2:
+      path: /feign/**
+      url: http://localhost:8766
+    api-node3:
+      path: /wap/**
+      url: forward:/wap

@@ -1,0 +1,17 @@
+/target
+*.iml
+/bin
+/src/main/webapp/WEB-INF/classes
+/src/main/webapp/WEB-INF/lib
+*.settings
+*.classpath
+*.buildpath
+*.pydevproject
+*.project
+*.idea
+*.externalToolBuilders
+/.git
+/src/main/webapp/WEB-INF/work
+/src/main/webapp/tmp
+
+

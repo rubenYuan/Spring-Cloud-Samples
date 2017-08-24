@@ -1,0 +1,11 @@
+server:
+  port: 9112
+spring:
+  application:
+    name: sleuth-stream-consumer
+
+#rabbitmq配置
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest

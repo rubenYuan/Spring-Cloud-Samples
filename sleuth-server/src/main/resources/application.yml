@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: sleuth-zipkin
+  datasource:
+   # schema: classpath:/mysql.sql
+    url: jdbc:mysql://120.77.214.150:3306/sleuth_log?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    driverClassName: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    # Switch this on to create the schema on startup:
+    initialize: true
+    continueOnError: true
+  sleuth:
+    enabled: false
+
+# default is mem (in-memory)
+  zipkin:
+      storage:
+         type: mysql
+
+server:
+  port: 9411
+
+#服务注册
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

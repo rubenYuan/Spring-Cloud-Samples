@@ -1,0 +1,185 @@
+Spring Cloud
+
+一：Spring Cloud-前言
+
+1.微服务架构概念：
+    简而言之，微服务架构就是将一个完整的应用从数据存储开始垂直拆分成多个不同的服务。
+    每个服务都能独立部署、独立维护、独立扩展，服务与服务间通过诸如RESTful API的方式互相调用。
+    即微服务是自治的服务单元。
+
+2.Spring Boot回顾：
+    Spring Boot让我们的Spring应用变的更轻量化。具有如下优势：
+        1.为所有Spring开发者更快的入门
+        2.开箱即用，提供各种默认配置来简化项目配置
+        3.内嵌式容器简化Web项目
+        4.没有冗余代码生成和XML配置的要求
+
+3.微服务架构进化
+    服务化的核心就是将传统的一站式应用根据业务拆分成一个一个的服务，而微服务在这个基础上要更彻底地去耦合，并且强调DevOps和快速演化。
+    DevOps是英文Development和Operations的合体，他要求开发、测试、运维进行一体化的合作，进行更小、更频繁、更自动化的应用发布，以及围绕应用架构来构建基础设施的架构。
+
+    3.1.服务化之Nginx
+        nginx通过接受客户端Http请求，根据路径配置，转发，跳转相应的服务。
+        缺点：
+        1.Nginx配置中存在服务调用的逻辑
+        2.服务消费者不知道，真正服务提供者的实例。
+        3.服务提供者不易管理
+    也正是以上的缺点，演变出Dubbo
+
+    3.2.服务化之Dubbo
+        Dubbo是阿里开源的一个SOA服务治理解决方案。服务消费者和提供者都可将服务信息注册到Register，形成了服务中心的组件。通过Monitor进行很好的服务管理，消费者可以进行负载均衡，服务降级等。
+        缺点：
+        1.致命的缺点-维护停止（阿里目前又着手维护）
+        2.Dubbo严重依赖于第三方组件（Zookeeper／Redis）
+        3.由于Dubbo的RPC调用，使得服务提供方与消费方有着代码层次的高强度耦合。
+
+
+4.服务化之Spring Cloud
+    SpringCloud提出是开发面向云端的Application，为微服务提供了全套的组件技术支撑。值得注意的是：Spring Cloud抛弃了Dubbo的RPC通信，采用了基于Http的Rest方式通信。
+
+
+    4.1.Spring Cloud的大家庭组成
+
+        服务治理：这是Spring Cloud的核心。目前Spring Cloud主要通过整合Netflix的相关产品来实现这方面的功能（Spring Cloud Netflix），包括用于服务注册和发现的Eureka，调用断路器Hystrix，调用端负载均衡Ribbon，Rest客户端Feign，智能服务路由Zuul，用于监控数据收集和展示的Spectator、Servo、Atlas，用于配置读取的Archaius和提供Controller层Reactive封装的RxJava。
+
+        分布式链路监控：Spring Cloud Sleuth提供了全自动、可配置的数据埋点，以收集微服务调用链路上的性能数据，并发送给Zipkin进行存储、统计和展示。
+
+        消息组件：Spring Cloud Stream对于分布式消息的各种需求进行了抽象，包括发布订阅、分组消费、消息分片等功能，实现了微服务之间的异步通信。Spring Cloud Stream也集成了第三方的RabbitMQ和Apache Kafka作为消息队列的实现。而Spring Cloud Bus基于Spring Cloud Stream，主要提供了服务间的事件通信（比如刷新配置）。
+
+        配置中心：基于Spring Cloud Netflix和Spring Cloud Bus，Spring又提供了Spring Cloud Config，实现了配置集中管理、动态刷新的配置中心概念。配置通过Git或者简单文件来存储，支持加解密。
+
+        安全控制：Spring Cloud Security基于OAUTH2这个开放网络的安全标准，提供了微服务环境下的单点登录、资源授权、令牌管理等功能。
+
+        命令行工具：Spring Cloud Cli提供了以命令行和脚本的方式来管理微服务及Spring Cloud组件的方式。
+
+
+二：Sprint Cloud 服务发现与注册--Eureka
+
+1.选择Eureka理由
+    对于服务治理而言，核心部分就是服务发现与注册。一般常见的有Zookeeper，而Spring Cloud推荐使用的是Eureka。
+    因为在分布式系统中，有一个CAP定理，即 Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），三者不可得兼。Zookeeper是Hadoop的子项目，它的作用也多作为服务的发现与注册。
+    Zookeeper在CAP定理中满足的CP，也就是一致性和分区容错性，但是它不能保证服务的可用性。比如，服务消费者通过注册列表获取数据时，倘若，Zookeeper正在选主导致服务不可用，亦或者大多数服务宕机。
+    在一般分布式系统的数据存储场景，数据一致性应该是首先被保证的。然而在服务发现的场景中，服务消费者能够消费才是首先保证的。
+
+2.Eureka组件
+    Eureka由多个instance(服务实例)组成，这些服务实例可以分为两种：Eureka Server和Eureka Client。为了便于理解，我们将Eureka client再分为Service Provider和Service Consumer。
+    Eureka Server：服务的注册中心，负责维护注册的服务列表。
+    Service Provider：服务提供方，作为一个Eureka Client，向Eureka Server做服务注册、续约和下线等操作，注册的主要数据包括服务名、机器ip、端口号、域名等等。
+    Service Consumer：服务消费方，作为一个Eureka Client，向Eureka Server获取Service Provider的注册信息，并通过远程调用与Service Provider进行通信。
+
+    2.1.Eureka Server
+        Eureka Server作为一个独立的部署单元，以REST API的形式为服务实例提供了注册、管理和查询等操作。同时，Eureka Server也为我们提供了可视化的监控页面，可以直观地看到各个Eureka Server当前的运行状态和所有已注册服务的情况。
+        Eureka Server可以运行多个实例来构建集群，解决单点问题，与Zookeeper不同的是，Eureka的集群是peer to peer每个节点都是对等的，无主次之分，提高了服务的可用性。
+        Eureka Server节点启动后，会首先尝试从邻近节点获取所有实例注册表信息，完成初始化。Eureka Server通过getEurekaServiceUrls()方法获取所有的节点，并且会通过心跳续约的方式定期更新。默认配置下，如果Eureka Server在一定时间内没有接收到某个服务实例的心跳，Eureka Server将会注销该实例（默认为90秒，通过eureka.instance.lease-expiration-duration-in-seconds配置）。当Eureka Server节点在短时间内丢失过多的心跳时（比如发生了网络分区故障），那么这个节点就会进入自我保护模式。
+        自我保护模式：
+        默认配置下，如果Eureka Server每分钟收到心跳续约的数量低于一个阈值（instance的数量*(60/每个instance的心跳间隔秒数)*自我保护系数），并且持续15分钟，就会触发自我保护。在自我保护模式中，Eureka Server会保护服务注册表中的信息，不再注销任何服务实例。当它收到的心跳数重新恢复到阈值以上时，该Eureka Server节点就会自动退出自我保护模式。它的设计哲学前面提到过，那就是宁可保留错误的服务注册信息，也不盲目注销任何可能健康的服务实例。该模式可以通过eureka.server.enable-self-preservation = false来禁用，同时eureka.instance.lease-renewal-interval-in-seconds可以用来更改心跳间隔，eureka.server.renewal-percent-threshold可以用来修改自我保护系数（默认0.85）。
+
+
+    2.2.Eureka Client
+        2.2.1 服务注册
+                启动时，会调用服务注册方法，向Eureka Server注册自己的信息。Eureka Server会维护一个已注册服务的列表。当实例状态发生变化时（如自身检测认为Down的时候），也会向Eureka Server更新自己的服务状态，同时用replicateToPeers()向其它Eureka Server节点做状态同步。
+
+        2.2.2 续约与剔除
+                服务实例启动后，会周期性地向Eureka Server发送心跳以续约自己的信息，避免自己的注册信息被剔除。续约的方式与服务注册基本一致：首先更新自身状态，再同步到其它Peer。如果Eureka Server在一段时间内没有接收到某个微服务节点的心跳，Eureka Server将会注销该微服务节点（自我保护模式除外）。
+
+        2.2.3 服务消费
+                Service Consumer本质上也是一个Eureka Client。它启动后，会从Eureka Server上获取所有实例的注册信息，包括IP地址、端口等，并缓存到本地。这些信息默认每30秒更新一次。前文提到过，如果与Eureka Server通信中断，Service Consumer仍然可以通过本地缓存与Service Provider通信。
+
+
+    2.3.Eureka有三处缓存和一处延迟造成
+        2.3.1 Eureka Server对注册列表进行缓存，默认时间为30s。
+        2.3.2 Eureka Client对获取到的注册信息进行缓存，默认时间为30s。
+        2.3.3 Ribbon会从上面提到的Eureka Client获取服务列表，将负载均衡后的结果缓存30s。
+
+
+三：Spring Cloud 服务调用端负载均衡--Ribbon
+
+    Ribbon是Netflix发布的开源项目，主要功能是为REST客户端实现负载均衡。常见的组件
+    1.ServerList 负载均衡使用的服务器列表。这个列表会缓存在负载均衡器中，并定期更新。当Ribbon与Eureka结合使用时，ServerList的实现类就是DiscoveryEnabledNIWSServerList，它会保存Eureka Server中注册的服务实例表。
+    2.ServerListFilter 服务器列表过滤器。这是一个接口，主要用于对Service Consumer获取到的服务器列表进行预过滤，过滤的结果也是ServerList。Ribbon提供了多种过滤器的实现
+    3.IPing 探测服务实例是否存活的策略。
+    4.IRule 负载均衡策略，其实现类表述的策略包括：轮询、随机、根据响应时间加权等。
+    5.ILoadBalancer 负载均衡器。这也是一个接口，Ribbon为其提供了多个实现，比如ZoneAwareLoadBalancer。
+    6.RestClient 服务调用器。顾名思义，这就是负载均衡后，Ribbon向Service Provider发起REST请求的工具。
+
+四：Spring Cloud 服务调用端熔断--Hystrix
+    “断路器”本身是一种开关装置，当某个服务单元发生故障之后，通过断路器的故障监控（类似熔断保险丝），向调用方返回一个符合预期的、可处理的备选响应（FallBack），而不是长时间的等待或者抛出调用方无法处理的异常，这样就保证了服务调用方的线程不会被长时间、不必要地占用，从而避免了故障在分布式系统中的蔓延，乃至雪崩。
+    除了隔离依赖服务的调用以外，Hystrix还提供了准实时的调用监控（Hystrix Dashboard），Hystrix会持续地记录所有通过Hystrix发起的请求的执行信息，并以统计报表和图形的形式展示给用户，包括每秒执行多少请求多少成功，多少失败等。
+
+五：Spring Cloud 服务调用端代码抽象与封装--Feign
+    Feign是一个声明式的Web Service客户端，它的目的就是让Web Service调用更加简单。它整合了Ribbon和Hystrix，从而让我们不再需要显式地使用这两个组件。Feign还提供了HTTP请求的模板，通过编写简单的接口和插入注解，我们就可以定义好HTTP请求的参数、格式、地址等信息。接下来，Feign会完全代理HTTP的请求，我们只需要像调用方法一样调用它就可以完成服务请求。
+
+六：Spring Cloud 链路追踪--Sleuth
+    spring cloud sleuth可以结合zipkin，将信息发送到zipkin，利用zipkin的存储来存储信息，利用zipkin ui来展示数据。
+    1.提供链路追踪。通过sleuth可以很清楚的看出一个请求都经过了哪些服务。可以很方便的理清服务间的调用关系。
+    2.可视化错误。对于程序未捕捉的异常，可以在zipkin界面上看到。
+    3.分析耗时。通过sleuth可以很方便的看出每个采样请求的耗时，分析出哪些服务调用比较耗时。当服务调用的耗时随着请求量的增大而增大时，也可以对服务的扩容提供一定的提醒作用。
+    4.优化链路。对于频繁地调用一个服务，或者并行地调用等，可以针对业务做一些优化措施
+
+   6.1 术语：
+
+    span：最基本的工作单元。由spanId来标志。Span也可以带有其他数据，例如：描述，时间戳，键值对标签，起始Span的ID，以及处理ID（通常使用IP地址）等等。 Span有起始和结束，他们跟踪着时间信息。span应该都是成对出现的，所以一旦创建了一个span，那就必须在未来某个时间点结束它。起始的span通常被称为：root span。它的id通常也被作为一个跟踪记录的id。
+    traceId：一个树结构的span集合。把相同traceId的span串起来。
+    annotation：用于记录一个事件时间信息。
+        cs：client send。客户端发送，一个span的开始
+        cr：client receive。客户端接收。一个span的结束
+        ss：server send。服务器发送
+        sr：server receive。服务器接收，开始处理。
+        sr-cs和cr-ss:表示网络传输时长
+        ss-sr:表示服务端处理请求的时长
+        cr-cs:表示请求的响应时长
+
+    6.2 采样率
+    如果服务的流量很大，全部采集对存储压力比较大。这个时候可以设置采样率，sleuth 可以通过设置 spring.sleuth.sampler.percentage=0.1。不配置的话，默认采样率是0.1。也可以通过实现bean的方式来设置采样为全部采样(AlwaysSampler)或者不采样(NeverSampler)
+
+
+七：Spring Cloud 路由转发--Zuul
+    微服务场景下，每一个微服务对外暴露了一组细粒度的服务。客户端的请求可能会涉及到一串的服务调用，如果将这些微服务都暴露给客户端，那么会增加客户端代码的复杂度。
+    将细粒度的服务组合起来提供一个粗粒度的服务，所有请求都导入一个统一的入口，那么整个服务只需要暴露一个api，对外屏蔽了服务端的实现细节，也减少了客户端与服务器的网络调用次数。这就是api gateway。
+    有了api gateway之后，一些与业务关系并不大的通用处理逻辑可以从api gateway中剥离出来，api gateway仅仅负责服务的编排与结果的组装。
+
+    映射：
+    1.url映射
+    2.serviceId映射
+
+    zuul:
+      routes:
+        api-node1:
+          path: /ribbon/** #指定路径
+          serviceId: spring-cloud-ribbon-consumer #指定服务
+        api-node2:
+          path: /feign/**
+          url: http://localhost:8766
+        api-node3:
+          path: /wap/**
+          url: forward:/wap
+
+   Cookie与头信息
+   默认情况下，Zuul在请求路由时，会过滤HTTP请求头信息中的一些敏感信息，默认的敏感头信息通过zuul.sensitiveHeaders定义，包括Cookie、Set-Cookie、Authorization。
+
+   如果你使用 @EnableZuulProxy , 你可以使用代理路径上传文件, 它能够一直正常工作只要小文件. 对于大文件有可选的路径"/zuul/*"绕过Spring DispatcherServlet (避免处理multipart). 比如对于 zuul.routes.customers=/customers/** , 你可以使用 "/zuul/customers/*" 去上传大文件. Servlet路径通过 zuul.servletPath 指定. 如果使用Ribbon负载均衡器的代理路由, 在 处理非常大的文件时, 仍然需要提高超时配置.
+
+
+八：Spring Cloud 配置中心--config
+
+    在分布式系统中，spring cloud config 提供一个服务端和客户端去提供可扩展的配置服务。我们可用用配置服务中心区集中的管理所有的服务的各种环境配置文件。配置服务中心采用Git的方式存储配置文件，因此我们很容易部署修改，有助于对环境配置进行版本管理。
+
+    Spring Cloud Config就是云端存储配置信息的,它具有中心化,版本控制,支持动态更新,平台独立,语言独立等特性。其特点是：
+
+    a.提供服务端和客户端支持(spring cloud config server和spring cloud config client)
+    b.集中式管理分布式环境下的应用配置
+    c.基于Spring环境，无缝与Spring应用集成
+    d.可用于任何语言开发的程序
+    e.默认实现基于git仓库，可以进行版本管理
+    f.可替换自定义实现
+
+    1.server端
+
+    拉取配置时更新git仓库副本，保证是最新结果
+    支持数据结构丰富，yml, json, properties 等
+    配合 eureke 可实现服务发现，配合 cloud bus 可实现配置推送更新
+    配置存储基于 git 仓库，可进行版本管理
+    简单可靠，有丰富的配套方案
+
+    2.client端
+    指明使用ConfigServer上哪个配置文件即可
