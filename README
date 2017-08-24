@@ -183,3 +183,27 @@ Spring Cloud
 
     2.client端
     指明使用ConfigServer上哪个配置文件即可
+
+
+
+本项目介绍：
+eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth与stream相关的项目没有服务化，其余的均服务化。且admin项目模块暂时未完成。
+
+最强的 eureka-server
+
+ 一：与eureka-provider-node* 联合测试eureka的服务发现与注册
+
+ 二：eureka-server本项目的测试多配置自由切换以及对等的集群部署
+
+ 三：与ribbon-consumer以及eureka-provider-node* 联合测试服务的消费，客户端的负载均衡，服务提供者的负载均衡等
+
+ 四：与feign-consumer以及eureka-provider-node* 联合测试服务的熔断即上述第三点
+
+ 五：与sleuth-*（除了stream）相关项目联合测试链路的追踪，其中实现为http的zipkin
+
+ 六：与zuul,ribbon,feign联合测试路由的转发
+
+ 七：与config*相关测试配置中心读取配置文件
+
+
+
