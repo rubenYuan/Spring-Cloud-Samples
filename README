@@ -187,7 +187,7 @@ Spring Cloud
 
 
 本项目介绍：
-eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth与stream相关的项目没有服务化，其余的均服务化。且admin项目模块暂时未完成。
+eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth与stream相关的项目没有服务化，其余的均服务化。
 
 最强的 eureka-server
 
