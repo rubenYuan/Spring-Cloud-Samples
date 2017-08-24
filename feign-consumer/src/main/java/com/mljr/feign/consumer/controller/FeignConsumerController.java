@@ -21,12 +21,14 @@ public class FeignConsumerController {
     @GetMapping({"/", ""})
     public String index(HttpServletRequest request) {
         System.out.println("<<<<<<<<<<<<<token:"+request.getHeader("token")+">>>>>>>>>>>>>");
-        return "this is a  spring-cloud-feign-consumer!";
+        return "Hi,dy_bom,this is feign-consumer!";
     }
 
     @GetMapping("/index")
     public String feignIndex() {
-        return client.index();
+        String str =client.index();
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<feign调用返回值："+str+">>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        return str;
     }
 }
 

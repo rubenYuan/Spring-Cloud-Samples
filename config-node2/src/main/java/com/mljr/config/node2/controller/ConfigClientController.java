@@ -24,7 +24,7 @@ public class ConfigClientController {
      */
     @GetMapping({"/",""})
     public  String index() {
-        return  "this is a spring-cloud config client node2!";
+        return  "Hi,dy_bom! this is  config client node2!";
     }
 
     /**

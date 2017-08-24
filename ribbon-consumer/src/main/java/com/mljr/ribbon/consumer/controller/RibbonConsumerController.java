@@ -36,7 +36,7 @@ public class RibbonConsumerController {
      */
     @GetMapping({"/",""})
     public String index(){
-        return "this is spring-cloud-ribbon-consumer";
+        return "Hi,dy_bom,this is ribbon-consumer";
     }
 
     /**
@@ -45,8 +45,8 @@ public class RibbonConsumerController {
      */
     @GetMapping( "/index")
     public Object ribbonIndex() {
-        String str= restTemplate.getForEntity("http://spring-cloud-eureka-provider/index", String.class).getBody();
-        System.out.println("<<<<<<<<<<<<<provider:"+str+">>>>>>>>>>>>>>>>>");
+        String str= restTemplate.getForEntity("http://eureka-provider/index", String.class).getBody();
+        System.out.println("<<<<<<<<<<<<<ribbon返回值:"+str+">>>>>>>>>>>>>>>>>");
         return str;
     }
 }

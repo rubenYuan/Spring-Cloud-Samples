@@ -14,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
  * Copyright (c)  daoyuan.xiong@mljr.com All Rights Reserved.
  */
 @Configuration
-@RibbonClient(name = "spring-cloud-eureka-provider")
+@RibbonClient(name = "eureka-provider")
 public class RibbonClientConfiguration {
     @Bean
     public IRule ribbonRule(){
         System.out.println("<<<<<<<<<<<<<<<<<ribbon rule called!>>>>>>>>>>>>");
         //默认轮询策略（RoundRobinRule） 随机轮询(RandomRule) 权重（WeightedResponseTimeRule） 最小的并发策略（BestAvailableRule）
-         return new RoundRobinRule();
-//        return new RandomRule();
+//         return new RoundRobinRule();
+        return new RandomRule();
     }
 }

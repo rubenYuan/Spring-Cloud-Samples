@@ -18,10 +18,13 @@ import java.util.List;
 @RestController
 public class ProviderNode1Controller {
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     @GetMapping({"","/"})
     public String index(){
         System.out.println("<<<<<<<<<<<<<<<<<<URL地址："+serviceUrl()+">>>>>>>>>>>>>>>>>>");
-        return "this is a spring-cloud eureka provider-node1!";
+        return "Hi,dy_bom! this is  provider-node1 of peer!";
     }
 
     /**
@@ -30,18 +33,20 @@ public class ProviderNode1Controller {
      */
     @GetMapping("/index")
     public String providerIndex(){
-        return "Hello dy_bom ,this is a spring-cloud eureka provider-node1!";
+        return "Hi,dy_bom! this is  provider-node1 of peer!";
     }
-    @Autowired
-    private DiscoveryClient discoveryClient;
 
+
+    /**
+     * 通过DiscoveryClient获取服务信息
+     * @return
+     */
     public URI serviceUrl() {
-        List<ServiceInstance> list = discoveryClient.getInstances("spring-cloud-eureka-provider");
+        List<ServiceInstance> list = discoveryClient.getInstances("eureka-provider");
         if (list != null && list.size() > 0 ) {
             System.out.println("<<<<<<<<<<<<<<<<<元数据："+list.get(0).getMetadata()+">>>>>>>>>>>>>>>>>");
             return list.get(0).getUri();
         }
-
         return null;
     }
 }

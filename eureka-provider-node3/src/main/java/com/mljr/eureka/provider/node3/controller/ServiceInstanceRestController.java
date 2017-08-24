@@ -19,7 +19,7 @@ public class ServiceInstanceRestController {
      */
     @GetMapping("/index")
     public String index(){
-        return "Hello dy_bom ,this is a spring-cloud eureka provider-node3!";
+        return "Hi,dy_bom! this is  provider-node3 of peer!";
     }
 
 }

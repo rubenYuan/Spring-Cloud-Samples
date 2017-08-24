@@ -208,5 +208,11 @@ eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth�
 
  独立出来的sleuth-stream-*项目的测试链路追踪日志的持久化操作，该项目中持久化介质mysql,使用时，请初始化数据库连接。
 
+ 八：Spring Boot Admin
+ spring-boot-admin，简称SBA，是一个针对spring-boot的actuator接口进行UI美化封装的监控工具。他可以：
+ 在列表中浏览所有被监控spring-boot项目的基本信息，详细的Health信息、内存信息、JVM信息、垃圾回收信息、各种配置信息（比如数据源、缓存列表和命中率）等，
+ 还可以直接修改logger的level。
+
+
 
 

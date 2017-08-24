@@ -14,7 +14,6 @@ public class ConsumerFallback implements RemoteClient {
 
     @Override
     public String index() {
-        System.out.println("----fallback----");
         return "Feign客户端访问失败!";
     }
 }

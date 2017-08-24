@@ -33,10 +33,17 @@
             <artifactId>spring-cloud-starter-eureka-server</artifactId>
         </dependency>
 
-        <!--安全认证-->
+        <!--权限认证-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!--监控客户端-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>1.5.0</version>
         </dependency>
 
         <dependency>
@@ -44,11 +51,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

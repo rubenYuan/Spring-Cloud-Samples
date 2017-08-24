@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Copyright (c)  daoyuan.xiong@mljr.com All Rights Reserved.
  * @FeignClient注解后自动运用了ribbon的负载均衡
  */
-@FeignClient(name = "spring-cloud-eureka-provider", fallback = ConsumerFallback.class)//整个类所有方法熔断
+@FeignClient(name = "eureka-provider", fallback = ConsumerFallback.class)
 public interface RemoteClient {
 
     @RequestMapping(value = "/index")
