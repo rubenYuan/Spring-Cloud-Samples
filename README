@@ -197,13 +197,16 @@ eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth�
 
  三：与ribbon-consumer以及eureka-provider-node* 联合测试服务的消费，客户端的负载均衡，服务提供者的集群等
 
- 四：与feign-consumer以及eureka-provider-node* 联合测试服务的熔断即上述第三点
+ 四：与feign-consumer以及eureka-provider-node* 联合测试服务的熔断及上述第三点
 
  五：与sleuth-*（除了stream）相关项目联合测试链路的追踪，其中实现为http的zipkin
 
  六：与zuul,ribbon,feign联合测试路由的转发
 
- 七：与config*相关测试配置中心读取配置文件，消息总线BUG，集群等
+ 七：与config-*相关测试配置中心读取配置文件，消息总线BUG，集群等
+
+
+ 独立出来的sleuth-stream-*项目的测试链路追踪日志的持久化操作，该项目中持久化介质mysql,使用时，请初始化数据库连接。
 
 
 
