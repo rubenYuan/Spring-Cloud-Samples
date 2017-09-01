@@ -1,17 +1,12 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-server:
-  port: 8767
-spring:
-  application:
-    name: service-zuul
 # 响应页面默认后缀
-  mvc:
-    view:
-      suffix: .html
-
+spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
 #单实例路由
 zuul:
   routes:

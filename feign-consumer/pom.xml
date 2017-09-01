@@ -30,6 +30,18 @@
             <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
 
+        <!--hystrix-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+        </dependency>
+
+        <!--hystrix-dashboard 监控-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+        </dependency>
+
         <!-- eureka客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

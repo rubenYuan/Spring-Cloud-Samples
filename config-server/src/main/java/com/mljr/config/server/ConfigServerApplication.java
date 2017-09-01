@@ -2,11 +2,11 @@ package com.mljr.config.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @EnableConfigServer //开启配置服务
-@EnableDiscoveryClient //开启服务注册
+@EnableEurekaClient //开启服务注册,配置文件无须配置注册中心
 @SpringBootApplication
 public class ConfigServerApplication {
 

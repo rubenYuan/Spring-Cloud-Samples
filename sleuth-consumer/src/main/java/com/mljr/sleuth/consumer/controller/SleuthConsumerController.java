@@ -30,17 +30,13 @@ public class SleuthConsumerController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private Tracer tracer;
-
-
     /**
      * 项目说明
      * @return
      */
     @GetMapping({"/",""})
     public String index(){
-        return "this is spring-cloud-sleuth-consumer";
+        return "this is sleuth-zikpin-consumer";
     }
 
     /**
@@ -51,7 +47,7 @@ public class SleuthConsumerController {
     public Object sleuthProviderIndex() {
 
         LOGGER.info("<<<<<<<<<<<<<<<<calling trace demo provider>>>>>>>>>>>>>>>");
-        String str =  restTemplate.getForEntity("http://spring-cloud-sleuth-provider/index", String.class).getBody();
+        String str =  restTemplate.getForEntity("http://sleuth-zipkin-provider/index", String.class).getBody();
         return str;
     }
 }

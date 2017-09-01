@@ -28,6 +28,6 @@ public class SleuthProviderController {
     @GetMapping("/index")
     public String providerIndex(){
         LOGGER.info("<<<<<<<<<<<<<<<<trace sleuth demo provider is being called! >>>>>>>>>>>>>>>");
-        return "Hello dy_bom ,this is a spring-cloud sleuth provider!";
+        return "Hello dy_bom ,this is a spring-cloud sleuth-stream-mysql provider!";
     }
 }

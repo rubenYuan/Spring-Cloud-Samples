@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: config-client-node2
+server:
+  port: 8890

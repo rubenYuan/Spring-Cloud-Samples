@@ -1,12 +1,12 @@
 package com.mljr.eureka.provider.node1.controller;
 
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -19,14 +19,19 @@ import java.util.List;
 public class ProviderNode1Controller {
 
     @Autowired
+    private EurekaClient eurekaClient;
+
+
+    //服务发现
+    @Autowired
     private DiscoveryClient discoveryClient;
 
     @GetMapping({"","/"})
     public String index(){
-        System.out.println("<<<<<<<<<<<<<<<<<<URL地址："+serviceUrl()+">>>>>>>>>>>>>>>>>>");
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<通过DiscoveryClient获取服务的元数据，"+getServiceMetadataByLocalClient()+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<通过EurekaClient获取服务的元数据，"+getServiceMetadataByEurekaClient()+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         return "Hi,dy_bom! this is  provider-node1 of peer!";
     }
-
     /**
      * 用来测试与节点2.3的负载均衡
      * @return
@@ -36,16 +41,23 @@ public class ProviderNode1Controller {
         return "Hi,dy_bom! this is  provider-node1 of peer!";
     }
 
-
     /**
-     * 通过DiscoveryClient获取服务信息
+     * 通过本地的EurekaClient获取服务的元数据
      * @return
      */
-    public URI serviceUrl() {
+    public Object getServiceMetadataByEurekaClient(){
+        InstanceInfo instance = eurekaClient.getNextServerFromEureka("eureka-provider",false);
+        return instance.getMetadata();
+    }
+
+    /**
+     * 通过DiscoveryClient获取服务的元数据
+     * @return
+     */
+    public Object getServiceMetadataByLocalClient() {
         List<ServiceInstance> list = discoveryClient.getInstances("eureka-provider");
         if (list != null && list.size() > 0 ) {
-            System.out.println("<<<<<<<<<<<<<<<<<元数据："+list.get(0).getMetadata()+">>>>>>>>>>>>>>>>>");
-            return list.get(0).getUri();
+            return list.get(0).getMetadata();
         }
         return null;
     }

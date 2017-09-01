@@ -8,6 +8,7 @@
 *.buildpath
 *.pydevproject
 *.project
+.idea
 *.idea
 *.externalToolBuilders
 /.git

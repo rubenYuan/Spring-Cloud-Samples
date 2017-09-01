@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SleuthProviderController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SleuthProviderController.class);
 
     @GetMapping({"","/"})
     public String index(){
@@ -27,7 +26,6 @@ public class SleuthProviderController {
      */
     @GetMapping("/index")
     public String providerIndex(){
-//        LOGGER.info("<<<<<<<<<<<<<<<<trace sleuth demo provider is being called! >>>>>>>>>>>>>>>");
         return "Hello dy_bom ,this is a spring-cloud sleuth provider!";
     }
 }
