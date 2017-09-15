@@ -514,5 +514,7 @@ eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth�
  还可以直接修改logger的level。
 
 
+csdn:详细介绍
+http://blog.csdn.net/ruben95001/article/details/77192432
 
 
