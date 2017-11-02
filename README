@@ -1,4 +1,5 @@
-Spring Boot
+Spring Boot概述
+
 一：引导应用程序上下文
 一个Spring Cloud应用程序通过创建一个“引导”上下文来进行操作，这个上下文是主应用程序的父上下文。开箱即用，负责从外部源加载配置属性，还解密本地外部配置文件中的属性。这两个上下文共享一个Environment，这是任何Spring应用程序的外部属性的来源。Bootstrap属性的优先级高，因此默认情况下不能被本地配置覆盖。
 引导上下文使用与主应用程序上下文不同的外部配置约定，因此使用bootstrap.yml application.yml（或.properties）代替引导和主上下文的外部配置。例：
@@ -70,9 +71,6 @@ public class CustomPropertySourceLocator implements PropertySourceLocator {
     /restart关闭ApplicationContext并重新启动（默认情况下禁用）
 
     /pause和/resume调用Lifecycle方法（stop()和start() ApplicationContext）
-
-
-
 
 
 Spring Cloud
@@ -516,5 +514,7 @@ eureka-server为整个spring cloud项目的服务中心，除了之后的sleuth�
  还可以直接修改logger的level。
 
 
+csdn:详细介绍
+http://blog.csdn.net/ruben95001/article/details/77192432
 
 
