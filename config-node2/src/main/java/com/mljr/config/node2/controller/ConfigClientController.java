@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Author:daoyuanXiong
+ * Author:dy_boom
  * Description:
  * Date:Created in 下午4:49 2017/8/8
- * Copyright (c)  daoyuan.xiong@mljr.com All Rights Reserved.
+ * Copyright (c)  xdy_0722@sina.com All Rights Reserved.
  */
 @RestController
 @RefreshScope //Config客户端在服务器参数刷新时，也刷新注入的属性值

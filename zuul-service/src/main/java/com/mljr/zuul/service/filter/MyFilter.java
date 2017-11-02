@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Author:daoyuanXiong
+ * Author:dy_boom
  * Description:
  * Date:Created in 上午11:01 2017/8/9
- * Copyright (c)  daoyuan.xiong@mljr.com All Rights Reserved.
+ * Copyright (c)  xdy_0722@sina.com All Rights Reserved.
  */
 @Component
 public class MyFilter extends ZuulFilter{

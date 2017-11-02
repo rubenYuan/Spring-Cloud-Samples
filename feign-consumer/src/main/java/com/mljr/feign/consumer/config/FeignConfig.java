@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Author:daoyuanXiong
+ * Author:dy_boom
  * Description:
  * Date:Created in 下午10:28 2017/8/16
- * Copyright (c)  daoyuan.xiong@mljr.com All Rights Reserved.
+ * Copyright (c)  xdy_0722@sina.com All Rights Reserved.
  */
 @Configuration
 @RibbonClient(name = "eureka-provider")

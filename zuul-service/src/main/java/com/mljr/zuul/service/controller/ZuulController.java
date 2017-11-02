@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Author:daoyuanXiong
+ * Author:dy_boom
  * Description:
  * Date:Created in 下午3:47 2017/8/16
- * Copyright (c)  daoyuan.xiong@mljr.com All Rights Reserved.
+ * Copyright (c)  xdy_0722@sina.com All Rights Reserved.
  */
 @Controller
 @RequestMapping("/wap")
