@@ -1,0 +1,20 @@
+server:
+  port: 8000
+
+# Spring Boot Admin Server配置
+spring:
+  boot:
+    admin:
+      monitor:
+        status-lifetime: 100000
+      ui:
+        external-views:
+          - label: "🚀"
+            url: https://springboot.plus
+            order: 2000
+
+# Spring Boot Admin 登录账号密码
+xiu-core:
+  admin:
+    username: admin
+    password: 123456
