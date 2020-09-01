@@ -23,7 +23,7 @@ public class EurekaProviderNode1Application {
 
     @GetMapping({"", "/"})
     public String index() {
-      return "Hi,mr.xiu! this is  provider-node1 of peer!";
+      return "Hi,Mr.xiu! this is  provider-node1 of peer!";
     }
   }
 }

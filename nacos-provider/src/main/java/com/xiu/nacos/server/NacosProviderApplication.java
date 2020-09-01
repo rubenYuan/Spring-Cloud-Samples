@@ -21,7 +21,7 @@ public class NacosProviderApplication {
   static class TestController {
 
     @GetMapping(value = {"","/"})
-    public String index() {
+    public String hello() {
       return "hello nacos provider";
     }
   }

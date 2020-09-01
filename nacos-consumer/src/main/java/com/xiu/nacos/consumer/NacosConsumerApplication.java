@@ -1,6 +1,5 @@
 package com.xiu.nacos.consumer;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,7 +20,7 @@ public class NacosConsumerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NacosConsumerApplication.class, args);
 	}
-	@Slf4j
+
 	@RestController
 	static class TestController {
 
@@ -29,7 +28,7 @@ public class NacosConsumerApplication {
 		private LoadBalancerClient loadBalancerClient;
 
 		@GetMapping(value = {"","/"})
-		public String test() {
+		public String hello() {
 			ServiceInstance serviceInstance = loadBalancerClient.choose("nacos-provider");
 			String url = serviceInstance.getUri() + "/";
 			RestTemplate restTemplate = new RestTemplate();

@@ -43,5 +43,9 @@
     <module>sleuth-stream-consumer</module>
 
     <module>zuul-service</module>
+
+    <module>consul-provider</module>
+    <module>consul-provider2</module>
+    <module>consul-consumer</module>
   </modules>
 </project>

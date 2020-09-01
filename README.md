@@ -292,6 +292,8 @@ Spring Cloud
         2.3.2 Eureka Client对获取到的注册信息进行缓存，默认时间为30s。
         2.3.3 Ribbon会从上面提到的Eureka Client获取服务列表，将负载均衡后的结果缓存30s。
 
+java -jar -Dspring.profiles.active=peer3  eureka-server/target/eureka-server.jar
+
 
 三：Spring Cloud 服务调用端负载均衡--Ribbon
 

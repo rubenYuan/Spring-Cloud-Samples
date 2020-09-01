@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Author:dy_boom
- * Description:
- * Date:Created in 上午11:38 2017/8/18
- * Copyright (c)  xdy_0722@sina.com All Rights Reserved.
+ * @Author: Mr.xiu
  */
 @Configuration
 @RibbonClient(name = "eureka-provider")
